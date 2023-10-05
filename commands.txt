@@ -1,0 +1,6 @@
+aws lambda invoke --funtion-name my-function \
+                    --cli-binary-format raw-in-base64-out \
+                    --payload file://event.json \
+                    response.json
+                    
+aws lambda --function-name my-function out --log-type Tail
