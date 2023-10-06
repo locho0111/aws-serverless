@@ -4,3 +4,24 @@ aws lambda invoke --funtion-name my-function \
                     response.json
                     
 aws lambda --function-name my-function out --log-type Tail
+
+# Create Execution Role
+    aws iam create-role --role-name lambda-ex --assume-role-policy-document file://trust-policy.json
+# Attach policy to Execution Role:
+    aws iam attach-role-policy --role-name lambda-ex --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+# Deploy Node.js Lambda funtions with .zip file archives
+    # Mac: zip funtion.zip index.js
+    # Windows: Compress-Archive index.js function.zip
+
+# get Role
+aws iam get-role --role-name lambda-ex
+arn:aws:iam::262352748683:role/lambda-ex
+
+# Create function from .zip
+    aws lambda create-function `
+    --function-name my-function2 `
+    --role arn:aws:iam::262352748683:role/lambda-ex `
+    --runtime nodejs14.x `
+    --zip-file fileb://function.zip `
+    --handler index.handler
